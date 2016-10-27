@@ -1,0 +1,14 @@
+﻿{%for c in comm%}
+     <div class='comment' > 
+        <span class='reader'>{{c.author.first_name}} {{c.author.last_name}}, {{c.date|date:"G:i  j.n.Y"}}</span> 
+            {%ifequal c.author user%}
+                <span class='edit' class='head'>Редактировать</span>
+            {%endifequal%}
+            
+        <div class='content'>{{c.text_massage|linebreaks|safe}}</div>
+      
+       {%with comm=c.comments_set.all template_name='enot/comments.html' %}
+            {% include template_name %}
+       {%endwith%}
+   {% endfor%}
+   </div>

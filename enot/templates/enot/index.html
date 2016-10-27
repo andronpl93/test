@@ -1,0 +1,40 @@
+﻿<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+        <head>
+            <title>Test</title>
+            <link rel="stylesheet" href="{% static 'css/style.css' %}">
+            <script src="{% static 'js/jquery.min.js' %}"></script>
+            <script src="{% static 'js/myScript.js' %}"></script>
+        </head>
+        <body>
+        
+        {%include 'register/register_and_add.html'%}
+        
+        {% for m in mass%}
+                <div class="mas_wrap" data-mass-id='{{m.id}}'>
+
+                        <span class='head'>{{m.author.first_name}} {{m.author.last_name}}, {{m.date|date:"G:i j.n.Y"}} </span>
+                        {%ifequal m.author user%}
+                            <span class='edit' class='head'>Редактировать</span>
+                        {%endifequal%}
+                    <div class='content'>{{m.text_massage|linebreaks|safe}}</div>
+                    {%for c in m.comments_set.all%}
+                    <div class='comment' data-comm-id='{{c.id}}' >
+                        <span class='reader'>{{c.author.first_name}} {{c.author.last_name}}, {{c.date|date:"G:i  j.n.Y"}}</span> 
+                        {%ifequal c.author user%}
+                            <span class='edit' class='head'>Редактировать</span>
+                        {%endifequal%}
+                        <div class='content'>{{c.text_massage|safe|linebreaks}}</div>
+                    
+                    {%with comm=c.comments_set.all template_name='enot/comments.html' %}
+                        {% include template_name %}
+                    {%endwith%}
+                    {% endfor%}
+                    </div>
+                </div>
+                <hr/>
+        {%endfor%}   
+        <div id='edit_form' style='display:none'> <textarea></textarea><button>Редактировать</button></div>
+        </body>
+</html>

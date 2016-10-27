@@ -1,0 +1,10 @@
+{% if user.is_authenticated%}
+    {{user.first_name}}
+    {% include 'register/logout.html'%}
+    <form  id='form_add_mass' method='post' action='{% url "add_mass"%}'>{% csrf_token %}
+        <textarea name ='text_mass' required placeholder='Введите текст' ></textarea>   
+        <input type="submit" value="Отправить">
+    </form>
+{%else%}
+    {% include 'register/register.html'%}
+{%endif%}

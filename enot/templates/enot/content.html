@@ -1,0 +1,17 @@
+{% for m in mass%}
+                <div class="mas_wrap">
+                    <div class='head'><span>{{m.author.first_name}} {{m.author.last_name}}, {{m.date|date:"f j.n.Y"}}</span> </div>
+                    <div class='content'>{{m.text_massage}}</div>
+                    {%for c in m.comments_set.all%}
+                    <div class='comment' style='color:red'>
+                        <div class='head'><span>{{c.author.first_name}} {{c.author.last_name}}, {{c.date|date:"f j.n.Y"}}</span> </div>
+                        <div class='content'>{{c.text_massage}}</div>
+                    
+                    {%with comm=c.comments_set.all template_name='enot/comments.html' %}
+                        {% include template_name %}
+                    {%endwith%}
+                    {% endfor%}
+                    </div>
+                </div>
+                <hr/>
+{%endfor%}   
