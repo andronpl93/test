@@ -1,17 +1,22 @@
 {% for m in mass%}
-                <div class="mas_wrap">
-                    <div class='head'><span>{{m.author.first_name}} {{m.author.last_name}}, {{m.date|date:"f j.n.Y"}}</span> </div>
-                    <div class='content'>{{m.text_massage}}</div>
-                    {%for c in m.comments_set.all%}
-                    <div class='comment' style='color:red'>
-                        <div class='head'><span>{{c.author.first_name}} {{c.author.last_name}}, {{c.date|date:"f j.n.Y"}}</span> </div>
-                        <div class='content'>{{c.text_massage}}</div>
+                <div class="mas_wrap" data-mass-id='{{m.id}}'>
+                    <div>
+                    <span class='head'>{{m.author.first_name}} {{m.author.last_name}}, {{m.date|date:"G:i j.n.Y"}} </span>
+                        {%ifequal m.author user%}
+                            <span class='edit' class='head' >Редактировать</span>
+                        {%endifequal%}
+                    <div class='content'>
+                        <pre>{{m.text_massage}}</pre>
+                    </div>
+                    {%if m.comments_set.all.count%}
+                    <div class='show_comm' data-index='0'><span>Показать комментарии</span></div>
+                    {%endif%}
+                    {% if user.is_authenticated%}
+                            <span class="add_comm_btn" data-index='0'>Комментировать</span>
+                    {%endif%}
                     
-                    {%with comm=c.comments_set.all template_name='enot/comments.html' %}
-                        {% include template_name %}
-                    {%endwith%}
-                    {% endfor%}
+                    <hr/>
                     </div>
                 </div>
-                <hr/>
+               
 {%endfor%}   

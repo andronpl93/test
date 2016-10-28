@@ -1,3 +1,6 @@
+html{
+    background-color: #D8D9D8;
+}
 body{
     width:80%;
     margin:10px auto;
@@ -5,20 +8,60 @@ body{
 }
 textarea{
     margin:10px 0 ;
-    display:block;
+    word-wrap:break-word;
+}
+button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 4px 15px;
+    margin:3px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14spx;
+    font-weight: bold;
+    cursor:pointer;
+}
+.mas_wrap{
+    background-color:#fff;
+    padding:10px;
+    margin:15px 0;
+    margin-left:-30px
+}
+.mas_wrap >div{
+
+    margin-left:30px;
+}
+.content{
+    word-wrap:break-word; 
+}
+.add_comm{
+    display:flex;
+    margin:0;
+    padding:0;
+    align-items:center;
+}
+.add_comm > textarea{
+    height: 5.0em;
+    width:100%;
+}
+.add_comm_btn:hover,.edit:hover,.show_comm:hover{
+    cursor:pointer;
+}
+.add_comm_btn{
+    cursor:pointer;
+    float:right;
 }
 
+
 .comment{
-    margin-left:50px;
+    margin-left:30px;
 }
 
 
 .edit{
     float:right;
 }
-.edit:hover
-{
-    cursor:pointer;
-    
-}
+
 

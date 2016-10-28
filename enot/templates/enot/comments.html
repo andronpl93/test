@@ -1,14 +1,17 @@
 ﻿{%for c in comm%}
-     <div class='comment' > 
+     <div class='comment' data-comm-id='{{c.id}}' > 
         <span class='reader'>{{c.author.first_name}} {{c.author.last_name}}, {{c.date|date:"G:i  j.n.Y"}}</span> 
             {%ifequal c.author user%}
                 <span class='edit' class='head'>Редактировать</span>
             {%endifequal%}
             
-        <div class='content'>{{c.text_massage|linebreaks|safe}}</div>
-      
+        <div class='content'><pre>{{c.text_massage}}</pre></div>
+        {% if user.is_authenticated%}
+            <span class="add_comm_btn" data-index="0">Комментировать</span>
+        {%endif%}
        {%with comm=c.comments_set.all template_name='enot/comments.html' %}
             {% include template_name %}
        {%endwith%}
-   {% endfor%}
-   </div>
+    </div>
+{% endfor%}
+   
