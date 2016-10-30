@@ -1,17 +1,21 @@
 html{
     background-color: #D8D9D8;
+
 }
-body{
-    width:80%;
+body > div {
+    width:900px;
     margin:10px auto;
     text-align:justify;
+
+
 }
 textarea{
     margin:10px 0 ;
     word-wrap:break-word;
+    background-color: #FAFAFA;
+    padding:10px;
 }
 button {
-    background-color: #4CAF50; /* Green */
     border: none;
     color: white;
     padding: 4px 15px;
@@ -22,20 +26,100 @@ button {
     font-size: 14spx;
     font-weight: bold;
     cursor:pointer;
+    background-color:#4CAF50;
+    box-sizing:border-box;
+    width:150px;
+}
+
+hr{
+    height: 2px;
+    border: none;
+    margin:0px;
+    background-color:#4CAF50;
+    color:#4CAF50;
+}
+
+.edit,.edit_btn,.add_comm_btn{
+    background-color:#4CAF50;
+    color: #fff;
+    box-sizing:border-box;
+    width:130px;
+    text-align:center;
+   -webkit-box-shadow: -0 0 5px 0px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: -0 0 5px 0px rgba(0, 0, 0, 0.3);
+	box-shadow: -0 0 5px 0px rgba(0, 0, 0, 0.3);
+    
 }
 .mas_wrap{
-    background-color:#fff;
+    background-color:#FEFEFE;
     padding:10px;
     margin:15px 0;
-    margin-left:-30px
+    -webkit-box-shadow: -10px 10px 7px  -5px rgba(0, 0, 0, 2);
+	-moz-box-shadow: -10px 10px 7px  -5px rgba(0, 0, 0, 0.2);
+	box-shadow: -10px 10px 7px  -5px rgba(0, 0, 0, 0.2);
+
+    
 }
 .mas_wrap >div{
+    position: relative;
+    z-index: 1;
+    background-color: transparent;
+    margin-left:20px;
+    margin-bottom:20px;
 
-    margin-left:30px;
+    padding-right:5px;
+
 }
 .content{
+    position: relative;
+    background-color: #FAFAFA;
     word-wrap:break-word; 
+    padding:5px;
+    margin-bottom:10px;
+    margin-top:0;
+    text-align:justify;
+    -webkit-box-shadow:-9px 0px 7px  -5px rgba(0, 0, 0, 2);
+	-moz-box-shadow: -9px 0px 7px  -5px rgba(0, 0, 0, 0.2);
+	box-shadow: -9px 0px 7px  -5px rgba(0, 0, 0, 0.2);
+ 
 }
+.content:before{
+	position: absolute;
+	width: 100%;
+	height: 10px;
+	content: ' ';
+	left: 0px;
+	bottom: 12px;
+	background: transparent;
+	-webkit-transform: skew(-1deg) rotate(-1deg);
+	-moz-transform: skew(-1deg) rotate(-1deg);
+	-ms-transform: skew(-1deg) rotate(-1deg);
+	-o-transform: skew(-1deg) rotate(-1deg);
+	transform: skew(-1deg) rotate(-1deg);
+	-webkit-box-shadow: -3px 9px 6px 0px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: -3px 9px 6px 0px rgba(0, 0, 0, 0.3);
+	box-shadow: -3px 9px 6px 0px rgba(0, 0, 0, 0.3);
+    z-index:-1;
+}
+.plus{
+    position:relative;
+    bottom:-25px;
+    left:-5px;
+    width:15px;
+    height:15px;
+    overflow:hidden;
+    padding:0;
+    margin:0;
+}
+
+.plus_img{
+    position:absolute;
+    top:0;
+    left:0;
+    width:30px;
+    height:15px;
+}
+
 .add_comm{
     display:flex;
     margin:0;
@@ -46,22 +130,70 @@ button {
     height: 5.0em;
     width:100%;
 }
-.add_comm_btn:hover,.edit:hover,.show_comm:hover{
+.add_comm_btn:hover,.edit:hover,.show_comm:hover,.plus:hover{
     cursor:pointer;
 }
+
 .add_comm_btn{
-    cursor:pointer;
     float:right;
+    z-index:5;
+
 }
+
 
 
 .comment{
-    margin-left:30px;
+    padding:10px 0px 0px 30px;
+   
+    background-image:url('../images/back-ver.png');
+    background-repeat:repeat-y;
 }
-
+.mas_wrap> .comment{
+ background:none;   
+}
 
 .edit{
+    margin-left:10px;
     float:right;
+
+    
+    
 }
+.header{
+    color:#4CAF50;
+    font-weight:bold;
+    font-size:16px;
+    font-style:italic;
+}
+.show_comm{
+    width:100%;
+    margin-top:15px;
+    padding: 1px 10px;
+    box-sizing:border-box;
+    color:#fff;
+    background-image:  linear-gradient( to left, rgba(254,254,254,1) ,rgba(76,175,80,1));
+    -webkit-box-shadow: 0px 10px 7px  -5px rgba(0, 0, 0, 2);
+	-moz-box-shadow: 0px 10px 7px  -5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 10px 7px  -5px rgba(0, 0, 0, 0.2);
 
+}
+#add_comm_form{
+    margin-top:20px;
+}
+.comment > #add_comm_form{
+    margin-top:40px;
+}
+.perenos{
 
+   background-color:#FEFEFE;
+   margin-left:-270px;
+   padding-bottom:30px;
+}
+.line_div{
+    margin-left:30px;
+    padding-top:10px;
+    height:3px;
+    width:250px;
+    background-image:url('../images/back-hor.png');
+    background-repeat:repeat-x;
+}

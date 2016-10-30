@@ -8,101 +8,178 @@
 			}	
 	
 	$('#add_comm_form').hide();	// Прячем форму добавления комментов, она шаблон, потом будет перемещаться по дереву
+    // Грузим в ленту первую десятку сообщений
+    $.get('/load_content/',function(data){
+                        $('body > div ').append(data);
 
-    $('body > div ').load('/load_content/');
-	// редактирование поста или комента, меняем div на textarea и наоборот, но ничего не отправляем на сервер
-	$('body').on('click','.edit',function(event){
-		if($(this).html()=='Редактировать')
-		{
-			$(this).siblings('.content').replaceWith(function(){
-						return '<div class="text_edit" style="display:none"><textarea style="height:'+$(this).height()+
-						'px;width:'+$(this).width()+'px" >'+$(this).children('pre').text()+'</textarea><button class="edit_btn">Изменить</button></div>';
-						});
-			$('.text_edit',$(this).parent()).show(400);
-			$(this).html('Отменить')
-		}else
-		{  
-			esc_edit(this);
-		}
-	});
-	// Изменение сообщения или комментария. 
-	 $('body').on('click','.edit_btn', function (){
-		elem=$(this).parent().siblings('.edit');
-		 obj.data= {'text'   : $(this).siblings('textarea').val(),
-					'id_mass'	 : $(this).parent().parent().parent().attr('data-mass-id'),
-					'id_comm'	 : $(this).parent().parent().attr('data-comm-id'),
-					}
-		 obj.success= function(data){
-					esc_edit(elem);
-					}
-		 obj.url='/edit/';   
-
-		$.ajax(obj);  
-	 });
-	 // Перемещение формы комментирования
-	 $('body').on('click','.add_comm_btn', function (){
-        if ($(this).attr('data-index')=='0')
-        {   
-            $(this).text('Отменить');
-            $(this).attr('data-index','1');    
-            elem=$("#add_comm_form");
-            ecc=elem.children('div').children('input');
-            if(elem.parent().attr('data-mass-id')){
-                $(this).parent().append(elem);
-                ecc.attr('name','mass');
-                ecc.attr('value',elem.parent().parent().attr('data-mass-id'));
-            }
-            else{
-                $(this).after(elem);
-                ecc.attr('name','comm');
-                ecc.attr('value',elem.parent().attr('data-comm-id'));
-            }
-            elem.show(200);
-		}
-        else
-        {
-            $(this).text('Комментировать');
-            $("#add_comm_form").hide(200)
-            $(this).attr('data-index','0');
-        }
-	 });
-	 
-	 // Кнопка "Показать/Скрыть комментарии"
-	 $('body').on('click','.show_comm',function(){
-         elem=$(this)
-         // Загружаем с сервера если показываем первый раз
-         if (elem.attr('data-index')=='0')
-         {  
-            elem.text(elem.text().replace('Показать','Скрыть'));
-            elem.attr('data-index','1');
-            obj.data= {'id_mass': $(this).parent().parent().attr('data-mass-id')}
-            obj.success= function(data){
-					elem.parent().parent().append(data);
-					}
-            obj.url='/show_comm/';   
-            $.ajax(obj);  
-		 }
-         else
-         {
-           // Скрываем коменты
-            if (elem.attr('data-index')=='1')
-            {
-                elem.text(elem.text().replace('Скрыть','Показать'));
-                $('.comment',elem.parent().parent()).hide(200);
-                elem.attr('data-index','2');
-            }//Показываем, если до этого они были скрыты
-            else 
+    });
+    
+    
+    ///Так как всё на свете грузится динамически, нужно вешать события на элементы которых еще нет, по этому делегируем body
+    $('body').bind('click',function(event){
+        // редактирование поста или комента, меняем div на textarea и наоборот, но ничего не отправляем на сервер
+        if (event.target.className=='edit'){
+            thi=$(event.target);
+            if(thi.html()=='Редактировать')
+            {   
+                thi.siblings('.content').replaceWith(function(){
+                            return '<div class="text_edit" style="display:none"><textarea style="height:'+$(this).height()+
+                            'px;width:'+$(this).width()+'px" >'+$(this).text()+'</textarea><button class="edit_btn">Изменить</button></div>';
+                            });
+                $('.text_edit',thi.parent()).show(400);
+                thi.html('Отменить');
+            }else
             {  
-                elem.text(elem.text().replace('Показать','Скрыть'));
-                $('.comment',elem.parent().parent()).show(200);
-                elem.attr('data-index','1');
-            }
-         }
+                esc_edit(thi);
+            }   
+        }
+        
+        
+        
+        // Изменение сообщения или комментария. 
+        if(event.target.className=='edit_btn'){
+             thi=$(event.target);
+             elem=thi.parent().siblings('.edit');
+             obj.data= {'text'   : thi.siblings('textarea').val(),
+                        'id_mass'	 : thi.parent().parent().parent().attr('data-mass-id'),
+                        'id_comm'	 : thi.parent().parent().attr('data-comm-id'),
+                        }
+             obj.success= function(data){
+                        esc_edit(elem);
+                        }
+             obj.url='/edit/';   
 
-	 });
+            $.ajax(obj); 
+                
+            
+        }
+        
+        
+        
+         // Перемещение формы комментирования
+        if(event.target.className=='add_comm_btn'){
+            thi=$(event.target);
+            if (thi.attr('data-index')=='0')
+            {   
+                $('.add_comm_btn[data-index="1"]').each(function(){
+                    $(this).text('Комментировать');
+                    $(this).attr('data-index','0');
+                });
+        
+                thi.text('Отменить');
+                thi.attr('data-index','1');    
+                elem=$("#add_comm_form");
+                
+                ecc=elem.children('div').children('input');
+                if(thi.parent().attr('data-comm-id')) {
+                    thi.after(elem);
+                    ecc.attr('name','comm');
+                    ecc.attr('value',elem.parent().attr('data-comm-id'));
+                }
+                else{
+                    thi.parent().append(elem);
+                    ecc.attr('name','mass');
+                    ecc.attr('value',elem.parent().parent().attr('data-mass-id'));
+                }
+
+                elem.show(200);
+                elem.children('div').children('textarea').focus();
+                $('<a href="#add_comm_form"></a>').click();
+            }
+            else
+            {
+                thi.text('Комментировать');
+                $("#add_comm_form").hide(200)
+                thi.attr('data-index','0');
+            }  
+        }
+        
+        
+        
+     // Кнопка "Показать/Скрыть комментарии" грузит коменты с сервера
+    if(event.target.className=='show_comm'){
+        thi=$(event.target)
+        elem=thi;
+             // Загружаем с сервера если показываем первый раз
+             if (elem.attr('data-index')=='0')
+             {  
+                elem.text(elem.text().replace('Показать','Скрыть'));
+                elem.attr('data-index','1');
+                obj.data= {'id_mass': thi.parent().parent().attr('data-mass-id')}
+                obj.success= function(data){
+                        elem.parent().parent().append(data);
+                        
+                        
+                        elem=elem.parent().siblings('.comment')
+                    while(true){
+                                              
+                      elem=$('.comment>.comment>.comment>.comment>.comment>.comment>.comment>.comment>.comment:first',elem).wrap('<div class="perenos"></div>');  
+                       if(elem.html()==undefined){
+                            break;
+                        }
+                      
+                            $('.comment:first-child',$('.perenos')).css('background','none');
+                            $('.perenos',elem.parent().parent()).prepend('<div class="line_div"></div>').append('<div class="line_div"></div>');
+                            $('.plus_img:first',elem.parent().parent()).click();
+                        }
+                        
+                    }
+                obj.url='/show_comm/';   
+                $.ajax(obj);  
+             }
+             else
+             {
+               // Скрываем коменты
+                if (elem.attr('data-index')=='1')
+                {
+                    elem.text(elem.text().replace('Скрыть','Показать'));
+                    $('.comment',elem.parent().parent()).hide(200);
+                    elem.attr('data-index','2');
+                }//Показываем, если до этого они были скрыты
+                else 
+                {  
+                    elem.text(elem.text().replace('Показать','Скрыть'));
+                    $('.comment',elem.parent().parent()).show(200);
+                    elem.attr('data-index','1');
+                }
+             }   
+        
+        
+    }
+    
+     // сворачивание и разворачивание ветки дочерних комментов
+    if(event.target.className=='plus_img'){
+
+        thi=$(event.target);
+        if(thi.attr('data-index')=='0'){
+            thi.css('left',-(thi.height())+'px');
+            thi.attr('data-index','1');
+            $('.comment,.perenos',thi.parent().parent().parent()).hide(200);
+        }
+        else{
+            thi.css('left','0');
+            thi.attr('data-index','0');
+            $('*',thi.parent().parent().parent()).show(200);
+            $('.plus_img[data-index="1"]',thi.parent().parent().parent()).each(function(){
+
+                    $('.comment,.perenos',$(this).parent().parent().parent()).hide(200); 
+                    
+               });
+            
+        }
+        
+    }
+    
+    
+    
+        
+}); // кенец загрузки страницы 
+	
+
+
+     
         index = false;
         scr=true
-
         $(window).scroll(function() {
             if($(window).scrollTop() + $(window).height() > $(document).height()*0.7 && !index ) {
                 index = true;
@@ -111,13 +188,10 @@
                     $.get('/load_content/',function(data){
                         $('body > div ').append(data);
                         index=false;
-                        if (data=='')   //когда сервер начинает возвращать пустые вопросы - перестаем спрашивать
+                        if (data=='')   //когда сервер начинает возвращать пустые ответы - перестаем спрашивать
                             scr=false;
                     });
                 }
-
-                
-            
             }       
         });
         
@@ -134,7 +208,7 @@
 function esc_edit(elem){
 			text=$(elem).siblings('.text_edit').children('textarea').val();
 			$(elem).siblings('.text_edit').replaceWith(function(){
-						return ' <div style="display:none" class="content" ><pre>'+escapeHtml(text)+'</pre></div>';
+						return ' <div style="display:none" class="content" >'+escapeHtml(text)+'</div>';
 						});
 			$('.content',$(elem).parent()).show(400);
 			$(elem).html('Редактировать')

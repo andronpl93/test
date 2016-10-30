@@ -9,15 +9,15 @@
             <script src="{% static 'js/myScript.js' %}"></script>
         </head>
         <body>
-        
+        <div>
         {%include 'register/register_and_add.html'%}
         
-        <div></div>
+        </div>
         <form  id='add_comm_form' method='post' action ='{% url "add_comm"%}'>{% csrf_token %}
             <div class='add_comm'>
                 <input type='hidden' name='' value=''>
                 <textarea name='text_comm' required placeholder='Оставьте комментарий'></textarea>
-                <button type='submit'>Отправить</button>
+                <button type='submit'>Комментировать</button>
             </div>
         </form>
         </body>
