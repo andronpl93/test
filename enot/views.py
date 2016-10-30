@@ -23,12 +23,12 @@ def edit_post(request):
 	if request.user.is_authenticated() and request.user.is_active and request.method=="POST" :
 		if request.POST.get('id_mass') != None:
 			mass=Massages.objects.get(id=request.POST.get('id_mass'))
-			if mass.author==request.user:	   
+			if mass.author==request.user:		
 				mass.text_massage=request.POST.get('text')
-				mass.save()   
+				mass.save()	
 		if request.POST.get('id_comm') != None:
 			comm=Comments.objects.get(id=request.POST.get('id_comm'))
-			if comm.author==request.user:	   
+			if comm.author==request.user:		
 				comm.text_massage=request.POST.get('text')
 				comm.save()
 	return HttpResponse(True)
@@ -48,10 +48,8 @@ def add_comm(request):
 
 # Подгрузить комментарии к посту	
 def show_comm(request): 
-	logging.debug(0)
 	if request.method=="POST" :
 		comm=Comments.objects.filter(answer_massage=Massages.objects.get(id=int(request.POST.get('id_mass'))))
-		logging.debug(1)
 	return render(request,'enot/comments.html',{'comm':comm})
 	
 # Реализация "Бесконечной ленты"

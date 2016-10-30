@@ -9,7 +9,7 @@
 			}	
 	
 	$('#add_comm_form').hide();	// Прячем форму добавления комментов, она шаблон, потом будет перемещаться по дереву
-    
+
     // Грузим в ленту первую десятку сообщений
     $.get('/load_content/',function(data){
 
@@ -28,7 +28,7 @@
             if(thi.html()=='Редактировать')
             {   
                 thi.siblings('.content').replaceWith(function(){
-                            return '<div class="text_edit" style="display:none"><textarea style="height:'+$(this).height()+
+                            return '<div class="text_edit" style="display:none"><textarea required  style="height:'+$(this).height()+
                             'px;width:'+$(this).width()*0.98+'px" >'+$(this).text()+'</textarea><button class="edit_btn">Изменить</button></div>';
                             });
                 $('.text_edit',thi.parent()).show(400);
@@ -77,7 +77,7 @@
                 
                 ecc=elem.children('div').children('input');
                 if(thi.parent().attr('data-comm-id')) {      // Вставляем в форму данные для комментирования комментария
-                    thi.after(elem);
+                    thi.siblings('.content').after(elem);
                     ecc.attr('name','comm');
                     ecc.attr('value',elem.parent().attr('data-comm-id'));
                 }
@@ -183,6 +183,10 @@
     }
     
     
+    if($(event.target).attr('id')=='up')
+    {
+        $('body,html').animate({'scrollTop':'0'},400);
+    }
     
         
 }); // кенец загрузки страницы 
@@ -193,11 +197,20 @@
     index = false;
     scr=true
     $(window).scroll(function() {
+        
+        if ($(window).scrollTop() > 800){
+             $('#up').show(300);
+        }
+        else
+        {
+            $('#up').hide(300);
+        }
+        
         if($(window).scrollTop() + $(window).height() > $(document).height()*0.7 && !index ) {
             index = true;
             if (scr)
             {
-
+               
                 $.get('/load_content/',function(data){
                     $('body > div ').append(data);
 

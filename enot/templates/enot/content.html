@@ -2,12 +2,13 @@
                 <div class="mas_wrap" data-mass-id='{{m.id}}'>
                     <div>
                     <span class='header'>{{m.author.first_name}} {{m.author.last_name}}  <span>{{m.date|date:"G:i j.n.Y"}}</span></span>
-                        {%ifequal m.author user%}
-                            <span class='edit' class='head' >Редактировать</span>
-                        {%endifequal%}
+
                         {% if user.is_authenticated%}
                             <span class="add_comm_btn" data-index='0'>Комментировать</span>
                         {%endif%}
+                         {%ifequal m.author user%}
+                            <span class='edit' class='head' >Редактировать</span>
+                        {%endifequal%}
                         <hr/>
                     <div class='content'>{{m.text_massage}}</div>
 

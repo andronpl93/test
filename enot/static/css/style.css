@@ -13,8 +13,9 @@ textarea{
     margin:10px 0 ;
     word-wrap:break-word;
     background-color: #FAFAFA;
-    padding:10px;
+    padding:1px;
      resize: none; 
+     min-height:5em;
 }
 
 button {
@@ -150,6 +151,7 @@ hr{
 
 .add_comm_btn{
     float:right;
+    margin-left:10px;
     z-index:5;
 
 }
@@ -157,7 +159,7 @@ hr{
 
 
 .comment{
-    padding:10px 0px 0px 30px;
+    padding:10px 0px 10px 30px;
    position:relative;
     background-image:url('../images/back-ver.png');
     background-repeat:repeat-y;
@@ -284,4 +286,19 @@ hr{
 }
 h3{
     color:#3D8C40;
+}
+
+
+#up{
+    position:fixed;
+    bottom: 30px;
+    left:30px;
+    width:100px;
+    height:100px;
+    opacity:0.5;
+    transition: opacity 0.8s;
+}
+#up:hover{
+      opacity:1;
+      cursor:pointer;
 }

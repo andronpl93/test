@@ -2,13 +2,15 @@
 {%for c in comm%}
      <div class='comment' data-comm-id='{{c.id}}' > 
         <span class='header'>{{c.author.first_name}} {{c.author.last_name}}  <span> {{c.date|date:"G:i  j.n.Y"}}</span></span> 
-            {%ifequal c.author user%}
-                <span class='edit' class='head'>Редактировать</span>
-            {%endifequal%}
+
             {% if user.is_authenticated%}
                 <span class="add_comm_btn" data-index="0">Комментировать</span>
             {%endif%}
+            {%ifequal c.author user%}
+                <span class='edit' class='head'>Редактировать</span>
+            {%endifequal%}
         <hr/>
+        
         <div class='content'>{{c.text_massage}}</div>{% if c.comments_set.all%}<div class='plus' ><img data-index='0' class='plus_img' src='{% static "images/plus.jpg" %}'></div>{% endif%}
        {%with comm=c.comments_set.all template_name='enot/comments.html' %}
             {% include template_name %}
