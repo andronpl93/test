@@ -1,7 +1,7 @@
 {% for m in mass%}
                 <div class="mas_wrap" data-mass-id='{{m.id}}'>
                     <div>
-                    <span class='header'>{{m.author.first_name}} {{m.author.last_name}}  {{m.date|date:"G:i j.n.Y"}} </span>
+                    <span class='header'>{{m.author.first_name}} {{m.author.last_name}}  <span>{{m.date|date:"G:i j.n.Y"}}</span></span>
                         {%ifequal m.author user%}
                             <span class='edit' class='head' >Редактировать</span>
                         {%endifequal%}
@@ -9,10 +9,10 @@
                             <span class="add_comm_btn" data-index='0'>Комментировать</span>
                         {%endif%}
                         <hr/>
-                    <div class='content'>{{m.text_massage|linebreaksbr}}</div>
+                    <div class='content'>{{m.text_massage}}</div>
 
                     {%if m.comments_set.all.count%}
-                    <div class='show_comm' data-index='0'>Показать комментарии</div>
+                    <div class='show_comm' data-index='0'> Показать комментарии </div>
                     {%endif%}
 
                     

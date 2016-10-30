@@ -2,10 +2,11 @@
 from django.http import HttpResponse,HttpResponseRedirect
 from .models import Massages,Comments
 import logging
-import json
 
-count_post=0
-# Create your views here.
+
+count_post=0 #Количество сообщений которые загружены в ленту
+
+
 def index(request):
 	global count_post
 	count_post=0
@@ -32,7 +33,7 @@ def edit_post(request):
 				comm.save()
 	return HttpResponse(True)
 	
-	# Добавление комментария к посту или комментарию
+	# Добавление комментария к посту или к комментарию
 def add_comm(request): 
 	if request.user.is_authenticated() and request.user.is_active and request.method=="POST" :
 		form=request.POST
@@ -44,15 +45,16 @@ def add_comm(request):
 			comm=Comments.objects.get(id=int(form.get("comm")))
 			Comments.objects.create(author=request.user,text_massage=form.get('text_comm'),answer_comment=comm)
 	return HttpResponseRedirect('/')
-	
+
+# Подгрузить комментарии к посту	
 def show_comm(request): 
-
-	if request.user.is_authenticated() and request.user.is_active and request.method=="POST" :
+	logging.debug(0)
+	if request.method=="POST" :
 		comm=Comments.objects.filter(answer_massage=Massages.objects.get(id=int(request.POST.get('id_mass'))))
-
+		logging.debug(1)
 	return render(request,'enot/comments.html',{'comm':comm})
 	
-	
+# Реализация "Бесконечной ленты"
 def load_content(request):
 	global count_post
 	mass=Massages.objects.all().order_by('id').reverse()[count_post:10+count_post]

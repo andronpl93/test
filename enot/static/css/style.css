@@ -14,21 +14,23 @@ textarea{
     word-wrap:break-word;
     background-color: #FAFAFA;
     padding:10px;
+     resize: none; 
 }
+
 button {
     border: none;
     color: white;
-    padding: 4px 15px;
+    padding: 4px 5px;
     margin:3px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 14spx;
+    font-size: 14px;
     font-weight: bold;
     cursor:pointer;
     background-color:#4CAF50;
     box-sizing:border-box;
-    width:150px;
+    width:120px;
 }
 
 hr{
@@ -38,18 +40,29 @@ hr{
     background-color:#4CAF50;
     color:#4CAF50;
 }
-
-.edit,.edit_btn,.add_comm_btn{
+/*Настройки кнопок*/
+.edit,.edit_btn,button ,.add_comm_btn{
     background-color:#4CAF50;
+    margin-top:3px;
     color: #fff;
     box-sizing:border-box;
-    width:130px;
+    width:150px;
     text-align:center;
+    font-size:16px;
    -webkit-box-shadow: -0 0 5px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: -0 0 5px 0px rgba(0, 0, 0, 0.3);
 	box-shadow: -0 0 5px 0px rgba(0, 0, 0, 0.3);
     
 }
+.edit_btn{
+    padding:2px;
+    margin-top:0px;
+    margin-bottom:10px;
+}
+.add_comm_btn:hover,.edit:hover,.show_comm:hover,.plus:hover{
+    cursor:pointer;
+}
+/*Блоки контента*/
 .mas_wrap{
     background-color:#FEFEFE;
     padding:10px;
@@ -66,14 +79,15 @@ hr{
     background-color: transparent;
     margin-left:20px;
     margin-bottom:20px;
-
     padding-right:5px;
+    
 
 }
 .content{
     position: relative;
     background-color: #FAFAFA;
     word-wrap:break-word; 
+    white-space:pre-line;
     padding:5px;
     margin-bottom:10px;
     margin-top:0;
@@ -83,6 +97,7 @@ hr{
 	box-shadow: -9px 0px 7px  -5px rgba(0, 0, 0, 0.2);
  
 }
+
 .content:before{
 	position: absolute;
 	width: 100%;
@@ -101,10 +116,11 @@ hr{
 	box-shadow: -3px 9px 6px 0px rgba(0, 0, 0, 0.3);
     z-index:-1;
 }
+/* кнопка "свернуть/ развернуть ветку комментов"*/
 .plus{
     position:relative;
-    bottom:-25px;
-    left:-5px;
+    bottom:2px;
+    left:0px;
     width:15px;
     height:15px;
     overflow:hidden;
@@ -128,11 +144,9 @@ hr{
 }
 .add_comm > textarea{
     height: 5.0em;
-    width:100%;
+    width:80%;
 }
-.add_comm_btn:hover,.edit:hover,.show_comm:hover,.plus:hover{
-    cursor:pointer;
-}
+
 
 .add_comm_btn{
     float:right;
@@ -144,7 +158,7 @@ hr{
 
 .comment{
     padding:10px 0px 0px 30px;
-   
+   position:relative;
     background-image:url('../images/back-ver.png');
     background-repeat:repeat-y;
 }
@@ -162,19 +176,29 @@ hr{
 .header{
     color:#4CAF50;
     font-weight:bold;
-    font-size:16px;
+    font-size:18px;
     font-style:italic;
 }
+.header > span{
+    color:#0F83CE;
+     font-size:14px;
+}
+/* Кнопка "Показать комментарии"*/
+
 .show_comm{
     width:100%;
     margin-top:15px;
-    padding: 1px 10px;
+    padding: 2px 5px ;
+
     box-sizing:border-box;
+    font-size:16px;
     color:#fff;
-    background-image:  linear-gradient( to left, rgba(254,254,254,1) ,rgba(76,175,80,1));
+    background-image:  linear-gradient( to left, rgba(15,131,206,1) ,rgba(76,175,80,1));
     -webkit-box-shadow: 0px 10px 7px  -5px rgba(0, 0, 0, 2);
 	-moz-box-shadow: 0px 10px 7px  -5px rgba(0, 0, 0, 0.2);
 	box-shadow: 0px 10px 7px  -5px rgba(0, 0, 0, 0.2);
+    display:flex;
+    align-items:centr;
 
 }
 #add_comm_form{
@@ -183,6 +207,8 @@ hr{
 .comment > #add_comm_form{
     margin-top:40px;
 }
+
+/* Перенос глубоко вложенных деревьев*/
 .perenos{
 
    background-color:#FEFEFE;
@@ -196,4 +222,66 @@ hr{
     width:250px;
     background-image:url('../images/back-hor.png');
     background-repeat:repeat-x;
+}
+
+
+/* Блок регистрации или созадния сообщения*/
+
+.mas_wrap:first-child{
+    -webkit-box-shadow: -10px 10px 7px  -5px rgba(0, 0, 0, 2);
+	-moz-box-shadow: -10px 10px 7px  -5px rgba(0, 0, 0, 0.2);
+	box-shadow: -10px 10px 25px  15px rgba(0, 0, 0, 0.2);
+}
+#form_add_mass{
+    width:900px;
+    color:red;
+    padding:0;
+    display:flex;
+    align-items:center;
+}
+#form_add_mass > textarea{
+    height:80px;
+    margin:0;
+    width:77.5%;
+    padding:0;
+    margin-top:-3px;
+    
+    
+}
+#logout{
+    float:right;
+    margin:0;
+    margin-top:-6px;
+    margin-left:-4px;
+}
+#reg{
+    width:600px;
+    margin:10px auto 0;
+    display:flex;
+    padding:0;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+#reg  a{
+    width:68px;
+    height:68px;
+    border-radius: 100px;
+    margin:10px;
+    overflow:hidden;
+    position:relative;
+
+
+}
+#reg div img{
+    position:absolute;
+    bottom:-1px;
+    left:-1px;
+    width:70px;
+    height:140px;
+}
+#reg img:hover{
+    bottom:-72px;
+}
+h3{
+    color:#3D8C40;
 }

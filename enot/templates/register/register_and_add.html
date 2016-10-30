@@ -1,10 +1,26 @@
-{% if user.is_authenticated%}
-    {{user.first_name}}
-    {% include 'register/logout.html'%}
-    <form  id='form_add_mass' method='post' action='{% url "add_mass"%}'>{% csrf_token %}
-        <textarea name ='text_mass' required placeholder='Введите текст' ></textarea>   
-        <input type="submit" value="Отправить">
-    </form>
-{%else%}
-    {% include 'register/register.html'%}
-{%endif%}
+{% load socialaccount %}
+    <div class="mas_wrap" data-mass-id='{{m.id}}'>
+        <div>
+        {% if user.is_authenticated%}
+            <span class='header'> Вы вошли как   {{user.first_name}} {{user.last_name}}  </span>{% include 'register/logout.html'%}
+                        <hr/>
+                        <form  id='form_add_mass' method='post' action='{% url "add_mass"%}'>{% csrf_token %}
+                            <textarea  name ='text_mass' required placeholder='Оставьте свое сообщение' ></textarea>
+                            <button type="submit" >Отправить</button>
+                        </form>
+
+        {%else%}   
+            {% load staticfiles %}
+                <div id='reg'>
+                <a href="{% provider_login_url 'vk' %}"><div><img src='{% static "images/vk.png" %}'></div></a>
+                <a href="{% provider_login_url 'facebook' %}"><div><img src='{% static "images/fb.png" %}'></div></a>
+                <a href="{% provider_login_url 'google' %}"><div><img src='{% static "images/goog.png" %}'></div></a>
+                
+<h3>Для добавления или комментирования сообщений выполните вход</h3>
+                </div>
+                
+        {%endif%}        
+        </div>                   
+    </div>
+    <br/>
+

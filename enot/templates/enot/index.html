@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 {% load staticfiles %}
 {% load poll_extras %}
 <html>
@@ -11,7 +11,7 @@
         <body>
         <div>
         {%include 'register/register_and_add.html'%}
-        
+
         </div>
         <form  id='add_comm_form' method='post' action ='{% url "add_comm"%}'>{% csrf_token %}
             <div class='add_comm'>
@@ -20,5 +20,7 @@
                 <button type='submit'>Комментировать</button>
             </div>
         </form>
+       
+        
         </body>
 </html>
