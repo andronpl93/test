@@ -118,7 +118,7 @@
 				obj.success= function(data){
 						elem.parent().parent().append(data);
 						$('#footer > img').fadeOut(100);
-						clearTimeout(timer);
+
 						elem=elem.parent().siblings('.comment');  // Загрузили комменты к сообщению
 						
 						/*
@@ -126,16 +126,7 @@
 							слишком большое погружение будет плохо выглядеть, 
 							поэтому доходя до 9-го уровня оборачиваем его потомков в див и задаем отрицательный margi-left двигающий их к началу
 						 */
-						while(true){					  
-							elem=$('.comment>.comment>.comment>.comment>.comment>.comment>.comment>.comment>.comment:first',elem).wrap('<div class="perenos"></div>');  
-							if(elem.html()==undefined){
-								break;
-							}
-					  
-							$('.comment:first-child',$('.perenos')).css('background','none');
-							$('.perenos',elem.parent().parent()).prepend('<div class="line_div"></div>').append('<div class="line_div"></div>');
-							$('.plus_img:first',elem.parent().parent()).click();
-						}
+                        perenos(elem);
 						
 					};
 				obj.url='/show_comm/';   
@@ -169,17 +160,22 @@
 		if(thi.attr('data-index')=='0'){
 			thi.css('left',-(thi.height())+'px');
 			thi.attr('data-index','1');
-			$('.comment,.perenos',thi.parent().parent()).hide(200);
+			$('>.comment,>.perenos',thi.parent().parent()).hide(200);
 		}
 		else{
-			thi.css('left','0');
-			thi.attr('data-index','0');
-			$('.comment,.perenos',thi.parent().parent().parent()).show(200);
-			$('.plus_img[data-index="1"]',thi.parent().parent()).each(function(){
-
-					$('.comment,.perenos',$(this).parent().parent()).hide(); 
-					
-			   });
+            if(thi.attr('data-index')=='1')
+            {
+                thi.css('left','0');
+                thi.attr('data-index','2');
+                $('>.comment',thi.parent().parent()).show(200);
+            }
+            else
+            {   
+                thi.css('left',-(thi.height())+'px');
+                thi.attr('data-index','1');
+                $('>.comment,>.perenos',thi.parent().parent()).hide(200);
+                
+            }
 			
 		}
 		
@@ -225,7 +221,7 @@
 		}	   
 	});
 		
-	// Добавление коммента к сообщению и комментарию. Через аякс чтобы при перезагрузке пользователю не искать свой коммент
+	// Добавление коммента к сообщению и комментарию. Через ajax чтобы при перезагрузке пользователю не приходилось искать свой коммент
 	$('#add_comm_form').submit(function(e){
 		e.preventDefault();
 		myForm=$(this);
@@ -250,6 +246,9 @@
                                 myForm.siblings('.content').after("<div class='plus' ><img data-index='0' class='plus_img' src='static/images/plus.jpg'></div>");
                             }
                             myForm.parent().append(data);
+                            myForm.siblings('.plus_img').attr('data-index','3');
+                            perenos(myForm.parents(".mas_wrap").children('.comment'));
+
                         }
 
 						myForm.siblings('.add_comm_btn').text('Комментировать').attr('data-index','0');
@@ -282,6 +281,34 @@ function esc_edit(elem){
 			$(elem).html('Редактировать')
 }
 
+//Реализация переноса сильно вложенного дерева
+function perenos(elem){
+   // while(true){	
+//alert(0);
+        elem=$('>.comment>.comment>.comment>.comment>.comment>.comment>.comment>.comment>.comment',elem);
+       elem.each(function(){
+
+            if($(this).children().is('.plus'))
+            {
+
+                $(this).html('<div class="perenos">'+$(this).html()+"</div>");
+                perenos($(this).children().children('.comment'));
+            }
+        });
+		//if(elem.html()==undefined){
+		//	break;
+		//}
+					  
+
+        if($('.plus_img:first',elem.parent()).attr('data-index')==0)
+        {
+            $('.plus_img:first',elem.parent()).click();
+            $('.comment:first-child',$('.perenos')).css('background','none');
+            $('.perenos',elem).prepend('<div class="line_div" ></div>').append('<div class="line_div"></div>');
+        }
+	//}
+    
+}
 
 // экранирование
 function escapeHtml(text) {

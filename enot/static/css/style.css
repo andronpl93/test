@@ -215,14 +215,14 @@ hr{
 .perenos{
 
    background-color:#FEFEFE;
-   margin-left:-270px;
+    margin-left:-270px;
    padding-bottom:30px;
 }
 .line_div{
-    margin-left:30px;
+    margin-left:0px;
     padding-top:10px;
     height:3px;
-    width:250px;
+    width:240px;
     background-image:url('../images/back-hor.png');
     background-repeat:repeat-x;
 }
