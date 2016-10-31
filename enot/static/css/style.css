@@ -6,9 +6,10 @@ body > div {
     width:900px;
     margin:10px auto;
     text-align:justify;
-
+    transition: height 20s;
 
 }
+
 textarea{
     margin:10px 0 ;
     word-wrap:break-word;

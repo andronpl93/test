@@ -37,14 +37,18 @@ def edit_post(request):
 def add_comm(request): 
 	if request.user.is_authenticated() and request.user.is_active and request.method=="POST" :
 		form=request.POST
+		logging.debug('0')
 		if form.get('mass'):
+			logging.debug('m0')
 			mass=Massages.objects.get(id=int(form.get("mass")))
-			Comments.objects.create(author=request.user,text_massage=form.get('text_comm'),answer_massage=mass)
-		
+			returnComm=Comments(author=request.user,text_massage=form.get('text_comm'),answer_massage=mass)
 		if form.get('comm'):
+			logging.debug('c0')
 			comm=Comments.objects.get(id=int(form.get("comm")))
-			Comments.objects.create(author=request.user,text_massage=form.get('text_comm'),answer_comment=comm)
-	return HttpResponseRedirect('/')
+			returnComm=Comments(author=request.user,text_massage=form.get('text_comm'),answer_comment=comm)
+		returnComm.save()
+		returnComm=Comments.objects.filter(id=returnComm.id)                                                # Костыль, из-за того что шаблон ждет итерируемый объект
+	return render(request,'enot/comments.html',{'comm':returnComm})
 
 # Подгрузить комментарии к посту	
 def show_comm(request): 
